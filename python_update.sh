@@ -77,9 +77,9 @@ create_symlinks()
 
 usage()
 {
-    echo "pyhton_update - attempt to update python from soruce"
+    echo "python_update - attempt to update python from soruce"
     echo " "
-    echo "pyhton_update [options]"
+    echo "python_update [options]"
     echo " "
     echo "options:"
     echo "-h, --help                show brief help"
