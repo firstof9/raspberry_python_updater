@@ -10,12 +10,16 @@ function pause(){
 
 download_python()
 {
-    wget https://www.python.org/ftp/python/$version/Python-$version.tgz
-    status=$?
+    if [ ! -f "Python-$version.tgz" ] then
+        wget https://www.python.org/ftp/python/$version/Python-$version.tgz
+        status=$?
 
-    if [ "$status" -gt 0 ]; then
-        echo "Error downloading file."
-        exit 1
+        if [ "$status" -gt 0 ]; then
+            echo "Error downloading file."
+            exit 1
+        fi
+    else
+        echo "Python already downloaded skipping..."
     fi
 }
 
@@ -37,17 +41,21 @@ install_pre()
 }
 extract_python()
 {
-    tar -zxf Python-$version.tgz > /dev/null
-    status=$?
+    if [ ! -d "Python-$version" ]; then
+        tar -zxf Python-$version.tgz > /dev/null
+        status=$?
 
-    if [ "$status" -gt 0 ]; then
-        echo "Error extracting file(s)."
-        exit 1
+        if [ "$status" -gt 0 ]; then
+            echo "Error extracting file(s)."
+            exit 1
+        fi
+    else
+        echo "An extracted version of Python already exists skipping..."
     fi
 }
 config_python()
 {
-    ./configure –prefix=/usr/local/opt/python-$version > ~/configure.log
+    ./configure --prefix=/usr/local/opt/python-$version > ~/configure.log
     status=$?
 
     if [ "$status" -gt 0 ]; then
