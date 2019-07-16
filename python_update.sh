@@ -78,7 +78,6 @@ create_symlinks()
 {
     ln -s /usr/local/opt/python-$version/bin/pydoc$shortversion /usr/bin/pydoc$shortversion
     ln -s /usr/local/opt/python-$version/bin/python$shortversion /usr/bin/python$shortversion
-    ln -s /usr/local/opt/python-$version/bin/python$shortversionm /usr/bin/python$shortversionm
     ln -s /usr/local/opt/python-$version/bin/pyvenv-$shortversion /usr/bin/pyvenv-$shortversion
     ln -s /usr/local/opt/python-$version/bin/pip$shortversion /usr/bin/pip$shortversion
 }
@@ -141,7 +140,10 @@ config_python
 echo "Compiling..."
 build_python
 echo "Installing files into system..."
-sudo make install altinstall
+make install altinstall
+
+echo "Creating symlinks..."
+create_symlinks
 
 # Stage 2
 if [ -d "$path" ]; then
@@ -175,9 +177,6 @@ if [ -f "~/requirements.txt"]; then
 fi
 deactivate
 EOF
-
-echo "Creating symlinks..."
-create_symlinks
 
 echo "Complete"
 exit 0
